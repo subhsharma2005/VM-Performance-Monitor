@@ -1,31 +1,119 @@
-# VM-Performance-Monitor
-VM Performance Monitor &amp; Controller, a cross-platform desktop application designed to provide real-time system monitoring and remote administrative control over virtual machines (VMs)
-The VM Performance Monitor & Controller is a robust, cross-platform desktop application designed to provide system administrators and developers with a secure, real-time interface for managing remote Virtual Machines (VMs). The project's architecture is built on three key layers: Secure Communication, Asynchronous Monitoring, and Interactive Presentation.
+# VM Performance Monitor & Controller
 
-Architectural Approach and Core Technology
+A cross-platform desktop application for monitoring and managing virtual machines over SSH.
 
-The application operates on a secure client-server model using the Secure Shell (SSH) protocol for all remote operations.
+## Overview
 
-Communication Layer: The Paramiko library serves as the secure backend engine, managing encrypted connections and command execution within the dedicated VMConnection class.
+VM Performance Monitor & Controller provides a modern GUI for administrators and developers to connect to a VM, view live system metrics, inspect running processes, execute shell commands, and manage processes remotely.
 
-Concurrency Model: To ensure the User Interface (UI) remains responsive during potentially slow network operations, the application uses multi-threading. A background thread continuously fetches data from the VM, while the main thread manages the UI, preventing application freezing.
+The application is built with:
 
-User Interface: The interface is built using CustomTkinter, delivering a modern, dark-themed, and highly responsive Graphical User Interface (GUI).
+- **Python**
+- **CustomTkinter** for the desktop interface
+- **Paramiko** for SSH communication
+- **psutil** for local dependency support
 
-Key Functional Deliverables
+## Features
 
-The tool is divided into two primary functional areas: Passive Monitoring and Active Control.
+### Real-Time Monitoring
+- Live CPU usage monitoring
+- Live memory usage monitoring
+- Color-coded resource indicators
+- Periodic refresh of remote system data
 
-Passive Monitoring Dashboard:
+### Process Management
+- View remote process list
+- Sort processes by CPU usage
+- Kill processes gracefully
+- Force kill processes when needed
+- Protection against terminating critical system processes
 
-Provides a real-time system status display, fetching live metrics like CPU Utilization (using top) and Memory Usage (using free) directly from the remote VM.
+### Remote Command Execution
+- Execute shell commands on the VM
+- Support for `sudo` commands with password prompt
+- Background execution for long-running commands
+- Output and error logging in the GUI
 
-The UI features color-coded progress bars and labels that visually indicate resource load, shifting colors (Green, Yellow, Red) based on predefined thresholds.
+### Connection Management
+- SSH connection dialog
+- Save connection settings locally
+- Reconnect and disconnect controls
+- Connection status indicator
 
-Active Process and Command Control:
+### System Details
+- VM OS information
+- Kernel version
+- Uptime
+- CPU details
+- Disk usage
+- Network address information
 
-Dynamic Process Manager: Presents a sortable, continually updated list of the VM's running processes (PID, User, CPU%, Command) fetched using ps aux. The display is optimized to minimize flicker by updating existing table rows rather than redrawing the entire list.
+## Architecture
 
-Process Lifecycle Management: Allows users to gracefully Kill (SIGTERM) or Force Kill (SIGKILL) processes by PID, incorporating critical checks to prevent accidental termination of essential system services (e.g., sshd).
+The application uses a secure client-server model over SSH:
 
-Integrated Command Panel: Features a secure terminal interface for executing arbitrary shell commands, complete with clear output logging and a dedicated prompt to handle Sudo passwords for privileged operations.
+- **VMConnection** handles SSH connectivity and command execution
+- **VMMonitor** builds the main interface and orchestrates updates
+- **CommandPanel** provides a terminal-like interface for remote commands
+- Background threads keep the UI responsive during remote operations
+
+## Screenshots
+
+_Add screenshots here if available._
+
+## Requirements
+
+- Python 3.10+ recommended
+- SSH access to a Linux-based VM
+- The following Python packages:
+  - `paramiko`
+  - `psutil`
+  - `customtkinter`
+
+## Installation
+
+```bash
+pip install paramiko psutil customtkinter
+```
+
+## Usage
+
+1. Run the application:
+
+```bash
+python main.py
+```
+
+2. Enter the VM host/IP, SSH port, username, and password.
+3. Connect to the VM.
+4. Monitor system metrics, manage processes, or run commands from the dashboard.
+
+## Configuration
+
+Connection settings can be saved locally in `vm_config.json`.
+
+> **Warning:** saved credentials are stored in plain text.
+
+## Project Structure
+
+```text
+.
+├── main.py
+└── README.md
+```
+
+## Security Notes
+
+- The app uses SSH for encrypted remote communication.
+- Do not store credentials on shared systems unless you trust the environment.
+- Be careful when using force kill or remote command execution.
+
+## Limitations
+
+- Designed primarily for Linux VMs with standard Unix command-line tools available.
+- Requires SSH access to the remote machine.
+- Some metrics depend on common Linux utilities such as `top`, `free`, `ps`, `uname`, and `df`.
+
+## Author
+
+Built by **team valor**.
