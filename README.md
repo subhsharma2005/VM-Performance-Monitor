@@ -88,19 +88,7 @@ python main.py
 3. Connect to the VM.
 4. Monitor system metrics, manage processes, or run commands from the dashboard.
 
-## Configuration
 
-Connection settings can be saved locally in `vm_config.json`.
-
-> **Warning:** saved credentials are stored in plain text.
-
-## Project Structure
-
-```text
-.
-├── main.py
-└── README.md
-```
 
 ## Security Notes
 
@@ -108,12 +96,3 @@ Connection settings can be saved locally in `vm_config.json`.
 - Do not store credentials on shared systems unless you trust the environment.
 - Be careful when using force kill or remote command execution.
 
-## Limitations
-
-- Designed primarily for Linux VMs with standard Unix command-line tools available.
-- Requires SSH access to the remote machine.
-- Some metrics depend on common Linux utilities such as `top`, `free`, `ps`, `uname`, and `df`.
-
-## Author
-
-Built by **team valor**.
